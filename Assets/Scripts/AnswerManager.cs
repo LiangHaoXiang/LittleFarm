@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class AnswerManager : MonoBehaviour
 {
-    
+    public delegate void AnswerCorrectEventHandler();
+    public event AnswerCorrectEventHandler AnswerCorrectEvent;
+
     public Text answerA;
     public Text answerB;
     public Text answerC;
@@ -50,12 +52,6 @@ public class AnswerManager : MonoBehaviour
         originB_pos = answerB.transform.parent.GetComponent<RectTransform>().position;
         originC_pos = answerC.transform.parent.GetComponent<RectTransform>().position;
         originD_pos = answerD.transform.parent.GetComponent<RectTransform>().position;
-        //Debug.Log(house.GetComponent<RectTransform>().sizeDelta);
-        //Debug.Log(house.GetComponent<RectTransform>().rect.size);
-        //Debug.Log(house.GetComponent<RectTransform>().rect.size.x);
-        //Debug.Log(house.GetComponent<RectTransform>().rect.size.y);
-        //Debug.Log(house.GetComponent<RectTransform>().rect.width);
-        //Debug.Log(house.GetComponent<RectTransform>().rect.height);
     }
 
     void Update()
@@ -142,6 +138,7 @@ public class AnswerManager : MonoBehaviour
     void correctAnswerManage()
     {
         StartCoroutine(answerSelectChange());   //选项的相关改变
+
         correctCount++;
         //回答正确
         isCorrect = true;
@@ -158,6 +155,36 @@ public class AnswerManager : MonoBehaviour
         //可以继续下一题
         canNext = true;
     }
+
+    void CorrectCountChange()
+    {
+        correctCount++;
+    }
+
+    void CorrectStateChange()
+    {
+        if (isCorrect == false)
+            isCorrect = true;
+        else
+            isCorrect = false;
+    }
+
+    void HouseMoveStateChange()
+    {
+        if (houseMoveFirstTime == false)
+            houseMoveFirstTime = true;
+        else
+            houseMoveFirstTime = false;
+    }
+
+    void CanNextStateChange()
+    {
+        if (canNext == false)
+            canNext = true;
+        else
+            canNext = false;
+    }
+
     //答对后得分的星星改变
     void starPointChange()
     {
